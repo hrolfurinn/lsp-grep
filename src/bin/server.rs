@@ -1,8 +1,8 @@
-use tokio::net::{TcpListener,TcpStream};
-use mini_redis::{Connection, Frame};
 use bytes::Bytes;
-use std::sync::{Arc,Mutex};
+use mini_redis::{Connection, Frame};
 use std::collections::HashMap;
+use std::sync::{Arc, Mutex};
+use tokio::net::{TcpListener, TcpStream};
 
 type Db = Arc<Mutex<HashMap<String, Bytes>>>;
 
@@ -20,7 +20,7 @@ async fn main() {
 
         println!("Accepted");
         tokio::spawn(async move {
-            process(socket,db).await;
+            process(socket, db).await;
         });
     }
 }
@@ -45,7 +45,7 @@ async fn process(socket: TcpStream, db: Db) {
                     Frame::Null
                 }
             }
-            cmd => panic!("unimplemented {:?}", cmd)
+            cmd => panic!("unimplemented {:?}", cmd),
         };
 
         connection.write_frame(&response).await.unwrap();
